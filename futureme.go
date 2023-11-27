@@ -112,10 +112,10 @@ func futureme() {
 	fme := mk_Fme()
 	file := filename(default_filename)
 	fme.fromFile(file)
-	fmt.Printf("From file : \n%v\n", fme)
+	fmt.Printf("Current goals: \n%v\n", fme)
 	loop(&fme)
 
-	fmt.Printf("With appended lines : \n%v\n", fme)
+  fmt.Printf("Current and new goals: \n%v\n", fme)
 	fme.toFile(file)
 	fmt.Printf("Data was  written to %v\n", file)
 
