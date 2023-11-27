@@ -66,6 +66,8 @@ func (f Fme) toFile(file_name string) {
 func (f *Fme) fromFile(file_name string) {
 	file, err := os.Open(file_name)
 	if err != nil {
+		log.Printf("Error while opening file: %v", file_name)
+		return
 	}
 	defer file.Close()
 	scanner := bufio.NewScanner(file)
