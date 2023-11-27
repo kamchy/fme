@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"path"
 	"strings"
 )
 
@@ -82,6 +83,7 @@ func (f *Fme) fromFile(file_name string) {
 
 const prompt = "Your goal (q quits): "
 const default_filename = "betterme.txt"
+const envname = "FMEDIR"
 
 func loop(fme *Fme) {
 	s := bufio.NewScanner(os.Stdin)
@@ -94,14 +96,27 @@ func loop(fme *Fme) {
 		fme.add(line)
 	}
 }
+
+// Return the output file path located in directory pointed to
+// by envname environment variable or in current working directory
+func filename(default_filename string) string {
+	if dirname, ok := os.LookupEnv(envname); ok {
+		return path.Join(dirname, default_filename)
+	} else {
+		log.Printf("Could not find %s env variable, will use %s", envname, default_filename)
+		return default_filename
+	}
+
+}
 func futureme() {
 	fme := mk_Fme()
-	fme.fromFile(default_filename)
+	file := filename(default_filename)
+	fme.fromFile(file)
 	fmt.Printf("From file : \n%v\n", fme)
 	loop(&fme)
 
 	fmt.Printf("With appended lines : \n%v\n", fme)
-	fme.toFile(default_filename)
-	fmt.Printf("Data was  written to %v\n", default_filename)
+	fme.toFile(file)
+	fmt.Printf("Data was  written to %v\n", file)
 
 }
