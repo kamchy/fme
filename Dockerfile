@@ -24,5 +24,6 @@ WORKDIR /root/
 # Copy the pre-built binary file from the previous stage.
 COPY --from=builder /app/fme .
 
+RUN mkdir data
 # Run the application.
 CMD ["./fme"]
